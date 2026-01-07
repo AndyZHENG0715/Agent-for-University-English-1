@@ -44,6 +44,8 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId, onBack }) => {
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || !user) return;
 
+    // Note: Using Date.now() for ID generation in this demo
+    // In production, use crypto.randomUUID() or a proper ID generation service
     // eslint-disable-next-line react-hooks/purity
     const messageId = `msg-${Date.now()}`;
     
@@ -69,6 +71,8 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId, onBack }) => {
     if (roomBots.length > 0) {
       const bot = roomBots[0];
       const botResponseContent = getBotResponse(inputMessage, bot.id);
+      // Note: Using Date.now() for ID generation in this demo
+      // In production, use crypto.randomUUID() or a proper ID generation service
       // eslint-disable-next-line react-hooks/purity
       const botMessageId = `msg-${Date.now()}-bot`;
 
