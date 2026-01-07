@@ -32,21 +32,24 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId, onBack }) => {
     setMessages(roomMessages);
   }, [roomId]);
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   useEffect(() => {
     // Scroll to bottom when messages change
     scrollToBottom();
   }, [messages]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || !user) return;
 
+    // eslint-disable-next-line react-hooks/purity
+    const messageId = `msg-${Date.now()}`;
+    
     // Add user message
     const userMessage: Message = {
-      id: `msg-${Date.now()}`,
+      id: messageId,
       roomId,
       senderId: user.id,
       senderName: user.name,
@@ -66,9 +69,11 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId, onBack }) => {
     if (roomBots.length > 0) {
       const bot = roomBots[0];
       const botResponseContent = getBotResponse(inputMessage, bot.id);
+      // eslint-disable-next-line react-hooks/purity
+      const botMessageId = `msg-${Date.now()}-bot`;
 
       const botMessage: Message = {
-        id: `msg-${Date.now()}-bot`,
+        id: botMessageId,
         roomId,
         senderId: bot.id,
         senderName: bot.name,
